@@ -1,0 +1,81 @@
+// Tao repo tren Github
+
+// Tao project laravel
+composer create-project laravel/laravel SendEmail
+
+// Tai khoang trong trong thu muc SendEmail chon Git Bash Here
+git init
+git add .
+git commit -m "initial commit"
+git remote add origin https://github.com/C190342/SendEmail.git
+git push -u origin master
+
+/* Da day duoc code len github voi brand la master */
+
+https://allaravel.com/blog/xu-ly-thu-dien-tu-voi-laravel-mail
+
+// cài đặt package Guzzle HTTP
+PS D:\Working\PHP\xampp\htdocs\SendEmail> composer require guzzlehttp/guzzle
+
+// Thiết lập mail driver
+// -- khai báo trong config/mail.php.
+
+
+// thiết lập các thông số cho dịch vụ email trong config/service.php.
+
+// Tạo mới Mailables Class
+php artisan make:mail RegisteredUser
+
+// Để thiết lập người gửi cho từng email chúng ta sử dụng phương thức from().
+D:\Working\PHP\xampp\htdocs\SendEmail\app\Mail\RegisteredUser.php
+
+// Chúng ta cũng có thể thiết lập người gửi cho toàn bộ các email bằng cách cấu hình file config/mail.php:
+'from' => [
+    'address' => env('MAIL_FROM_ADDRESS', 'allaravel.com@gmail.com'),
+    'name' => env('MAIL_FROM_NAME', 'All Laravel Admin'),
+],
+
+// Hoặc thậm chí trong file thiết lập các biến môi trường .env ở thư mục gốc của dự án:
+MAIL_FROM_ADDRESS=allaravel.com@gmail.com
+MAIL_FROM_NAME=All Laravel Admin
+
+// Trong phương thức build() của class Mailables chúng ta có thể sử dụng view() để chỉ định một Laravel Blade template 
+// -- làm mẫu cho email và có thể truyền các đối tượng vào template này.
+
+
+// Để truyền dữ liệu vào class Mailables chúng ta sử dụng các thuộc tích public, 
+// -- nó sẽ tự động được gán giá trị khi tạo một instance của class Mailables.
+
+// Những chỗ nào cần gửi mail ta chỉ đơn giản thực hiện tạo một instance của class Mailables như sau:
+$user = User::find($user_id);
+$email = new UserRegistered($user);
+Mail::to($user->email)->send($email);
+
+// Đính kèm file trong email
+return $this->view('emails.user.registered')
+                ->attach('/path/to/file');
+
+// đầu vào của phương thức attach() có thể là một mảng các thông số cho file đính kèm:
+return $this->view('emails.user.registered')
+                ->attach('/path/to/file', [
+                    'as' => 'Bigsale2017.pdf',
+                    'mime' => 'application/pdf',
+                ]);
+
+// Gửi email trong Laravel Mail
+php artisan make:controller MailController
+
+Route::get('admin/email', 'MailController@showEmailForm');
+Route::post('admin/email', 'MailController@sendEmail');
+
+// Tạo phương thức showEmailForm() trong MailController:
+public function showEmailForm(){
+    return view('fontend.send-email');
+}
+
+// Phương thức này trả về view send-email, chúng ta thực hiện tạo view này trong resources/views/fontend.
+
+
+
+
+

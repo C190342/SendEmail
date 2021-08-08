@@ -16,3 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('admin/email', 'MailController@showEmailForm');
+Route::post('admin/email', 'MailController@sendEmail');
